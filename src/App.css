@@ -1,0 +1,26 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/utilities';
+
+.text-main {
+    font-weight: bold;
+}
+
+::-webkit-scrollbar {
+    width: 2px; /* Set the desired width for your scrollbar */
+}
+::-webkit-scrollbar-thumb {
+    background-color: #0891b2; /* Customize the thumb color */
+    border-radius: 4px; /* Round the corners of the thumb */
+}
+
+.cp{
+    cursor: pointer;
+}
+
+.text-main {
+    @apply font-bold bg-gradient-to-b from-cyan-400 via-cyan-400 to-gray-500 text-transparent bg-clip-text;
+}
+
+.bg-main {
+    @apply bg-gradient-to-b from-cyan-500 to-gray-500;
+}
