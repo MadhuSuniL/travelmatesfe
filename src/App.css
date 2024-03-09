@@ -1,38 +1,26 @@
-.App {
-  text-align: center;
+@import 'tailwindcss/base';
+@import 'tailwindcss/utilities';
+
+.text-main {
+    font-weight: bold;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+::-webkit-scrollbar {
+    width: 2px; /* Set the desired width for your scrollbar */
+}
+::-webkit-scrollbar-thumb {
+    background-color: #0891b2; /* Customize the thumb color */
+    border-radius: 4px; /* Round the corners of the thumb */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.cp{
+    cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.text-main {
+    @apply font-bold bg-gradient-to-b from-cyan-400 via-cyan-400 to-gray-500 text-transparent bg-clip-text;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.bg-main {
+    @apply bg-gradient-to-b from-cyan-500 to-gray-500;
 }
