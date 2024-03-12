@@ -10,7 +10,7 @@ function isTokenExpired(token) {
 function AuthWrapper(WrappedComponent) {
   const HOC = (props) => {
     const storedAccessToken = localStorage.getItem('accessToken');
-    return <WrappedComponent {...props} />;
+    // return <WrappedComponent {...props} />;
 
     if (!storedAccessToken || isTokenExpired(storedAccessToken)) {
       return <Navigate to="/login" replace={true} />;
