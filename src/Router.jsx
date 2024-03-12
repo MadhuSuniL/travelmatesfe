@@ -14,6 +14,7 @@ import Travelers from "./Pages/Travelers";
 import AuthWrapper from "./Auth/AuthWraper";
 import UnAuthWraper from "./Auth/UnAuthWraper";
 import PrivacyPolicyPage from "./Pages/PrivacyPolicy/PrivacyPolicy";
+import DetailTrip from "./Components/Trips/DetailTrip/DetailTrip";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,17 @@ const router = createBrowserRouter([
           },
           {
               path: 'travelers',
-              Component: AuthWrapper(Travelers),
+              Component: AuthWrapper(RootLayout),
+              children: [
+                {
+                  index: true,
+                  Component: AuthWrapper(Travelers),
+                },
+                {
+                  path : ':trip_id',
+                  Component: AuthWrapper(DetailTrip),
+                }
+              ]
           },
           {
               path: 'publish',

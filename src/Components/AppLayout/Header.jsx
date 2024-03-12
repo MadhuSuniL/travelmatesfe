@@ -3,11 +3,14 @@ import Logo from '../../assests/logo2.png'
 import { FaPlane, FaPlus, FaEnvelope, FaUsers, FaHome } from 'react-icons/fa';
 import { NavLink, useLocation } from 'react-router-dom';
 import { getData } from '../../Functions/LocalStorage';
+import Notifications from '../Notifications/Notifications';
 
 const Header = () => {
   // Define an array of navigation items
   const location = useLocation();
   const profile_logo = getData('user')?.profile_pic || 'https://tse4.mm.bing.net/th?id=OIP.SWjOyXq5-r0qKj7QFI44RQAAAA&pid=Api&P=0&h=180'
+  const activeStyle = 'text-main font-bold underline decoration-4 underline-offset-8'
+  const unActiveStyle = 'hover:scale-105 duration-200 hover:underline decoration-4 underline-offset-8'
   const navItems = [
     {
       path: '/travelers',
@@ -24,10 +27,14 @@ const Header = () => {
       icon: <FaEnvelope className={location.pathname.includes('/chats') ? 'text-cyan-600' : 'text-gray-400'}/>,
       title: 'Messages',
     },
+    // {
+    //   path: '/requests',
+    //   icon: <FaUsers className={location.pathname.includes('/requests') ? 'text-cyan-600' : 'text-gray-400'}/>,
+    //   title: 'Requests',
+    // },
     {
-      path: '/requests',
-      icon: <FaUsers className={location.pathname.includes('/requests') ? 'text-cyan-600' : 'text-gray-400'}/>,
-      title: 'Requests',
+      path: null,
+      source : <Notifications mobile = {false}/>
     },
     {
       path: '/profile',
@@ -35,9 +42,6 @@ const Header = () => {
       title: '',
     },
   ];
-
-  const activeStyle = 'text-main font-bold underline decoration-4 underline-offset-8'
-  const unActiveStyle = 'hover:scale-105 duration-200 hover:underline decoration-4 underline-offset-8'
 
   return (
     <div className='flex justify-between items-center'>
@@ -55,6 +59,7 @@ const Header = () => {
           </button>
         </NavLink>
         {navItems.map((item, index) => (
+          item.path ?
           <button key={index} className={`mx-2 ${unActiveStyle} ${location.pathname.includes(item.path) ? activeStyle : ''} `}>
             <center>
               <NavLink to={item.path}>
@@ -63,16 +68,21 @@ const Header = () => {
               </NavLink>
             </center>
           </button>
+          :
+          item.source
         ))}
       </div>
-      <button className={`mx-2 md:hidden ${unActiveStyle} ${location.pathname.includes('/profile') ? activeStyle : ''} `}>
-        <center>
-          <NavLink to={'/profile'}>
-            <img src={profile_logo} alt='User Logo' className={`h-9 cp ml-3 mt-5 rounded-full`} />
-            <span className="ml-1">{''}</span>
-          </NavLink>
-        </center>
-      </button>
+      <div className='flex items-center md:hidden'>
+        <Notifications mobile = {true}/>
+        <button className={`mx-2 flex items-center md:hidden ${unActiveStyle} ${location.pathname.includes('/profile') ? activeStyle : ''} `}>
+          <center>
+            <NavLink to={'/profile'}>
+              <img src={profile_logo} alt='User Logo' className={`h-9 cp ml-3 mt-5 rounded-full`} />
+              <span className="ml-1">{''}</span>
+            </NavLink>
+          </center>
+        </button>
+      </div>
 
     </div>
   );

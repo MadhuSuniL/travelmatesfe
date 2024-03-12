@@ -16,7 +16,7 @@ const TripSearchResults = ({
         <div className='flex justify-around items-center'>
             <div className='flex flex-col items-center justify-center'>
                 <h1 onClick={()=>setShowFilters(true)} className='text-main md:hidden'>Filters</h1>
-                <h1 className='flex justify-end text-sm m-1 mx-2'>12 trips found</h1>
+                <h1 className='flex justify-end text-sm m-1 mx-2'>{trips.length} trips found</h1>
             </div>
         </div>
         <div className='pb-36 md:pb-20 overflow-auto h-screen'>

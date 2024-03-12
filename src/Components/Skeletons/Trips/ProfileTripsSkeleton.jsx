@@ -2,7 +2,7 @@ import React from 'react'
 import TripPublicCard from '../../Trips/Cards/TripPublicCard'
 import { Card } from 'flowbite-react';
 import { SiYourtraveldottv } from "react-icons/si";
-
+import TripPrivateCard from '../../Trips/Cards/TripPrivateCard';
 
 const NoData = () => {
     return (
@@ -36,10 +36,11 @@ const Skeleton = () => {
     )
 }
 
-const TripResultSkeleton = ({
+const ProfileTripsSkeleton = ({
     trips,
     isLoading,
-    skeletonCount
+    skeletonCount,
+    usePrivate
 }) => {
   return (
     <>
@@ -54,8 +55,11 @@ const TripResultSkeleton = ({
             : 
             <div>
                 {
-                    trips?.length > 0 ?
-                    trips?.map(trip => <TripPublicCard tripData = {trip} key={trip.uiid}/>)
+                    trips.length > 0 ?
+                    usePrivate ?
+                        trips.map(trip => <TripPrivateCard tripData = {trip} key={trip.uiid}/>)
+                        :
+                        trips.map(trip => <TripPublicCard tripData = {trip} key={trip.uiid}/>)
                     :
                     <NoData/>
                 }
@@ -66,4 +70,4 @@ const TripResultSkeleton = ({
   )
 }
 
-export default TripResultSkeleton
+export default ProfileTripsSkeleton
