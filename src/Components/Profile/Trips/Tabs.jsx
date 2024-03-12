@@ -1,24 +1,42 @@
 import { Tabs } from 'flowbite-react';
 import { BiCalendarEvent, BiCheckCircle } from 'react-icons/bi';
-import TripPublicCard from '../../Trips/Cards/TripPublicCard';
+import ProfileTripsSkeleton from '../../Skeletons/Trips/ProfileTripsSkeleton';
+import apiCall from '../../../Functions/Axios';
+import {useState, useEffect } from 'react';
 
 
 
-function TripTabs() {
+function TripTabs({
+  userData
+}) {
+
+  const [upCommingTrips, setUpCommingTrips] = useState([])
+  const [completedTrips, setCompletedTrips] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  const getTrips = () => {
+    let url = `users/user-trips/${userData.email}`
+    let body = {}
+    let method = 'get'
+    const onSuccess = (data) => {
+        setCompletedTrips(data.completed_trips)
+        setUpCommingTrips(data.upcoming_trips)
+    }
+
+    apiCall(url, body, method, setIsLoading, onSuccess )
+  }
+
+  useEffect(()=>{
+    getTrips()
+  },[])
+
   return (
     <Tabs aria-label="Tabs with underline" className='justify-around border-0' style="underline">
       <Tabs.Item active title="Upcoming Trips" icon={BiCalendarEvent}>
-        <div className='p-2 grid grid-cols-1 gap-2 overflow-auto h-screen pb-44'>
-          <TripPublicCard/>
-          <TripPublicCard/>
-          <TripPublicCard/>
-          <TripPublicCard/>
-        </div>
+          <ProfileTripsSkeleton usePrivate={true} trips = {upCommingTrips} skeletonCount={10} isLoading={isLoading} />
       </Tabs.Item>
-      <Tabs.Item title="Completed Trips" icon={BiCheckCircle}>
-        This is <span className="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</span>.
-        Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-        control the content visibility and styling.
+      <Tabs.Item title="Old Trips" icon={BiCheckCircle}>
+          <ProfileTripsSkeleton usePrivate={true} trips = {completedTrips} skeletonCount={10} isLoading={isLoading} />
       </Tabs.Item>
     </Tabs>
   );

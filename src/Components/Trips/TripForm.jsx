@@ -7,6 +7,7 @@ import Buffer from '../buffer/Buffer';
 import apiCall from '../../Functions/Axios';
 import { useNavigate } from 'react-router-dom';
 import { getData } from '../../Functions/LocalStorage';
+import Autocomplete from '../Custom/AutoComplete';
 
 const TripForm = ({
   show,
@@ -34,11 +35,11 @@ const TripForm = ({
   },[])
 
   const [formData, setFormData] = useState({
-    user,
+    user : user,
     title: '',
     address_from: '',
     address_to: '',
-    category: 'adventure',
+    category: 'Adventure',
     date: '',
     time: '',
     group_size: 2,
@@ -99,75 +100,67 @@ const TripForm = ({
         <form onSubmit={handleSubmit} className="grid gap-1 md:gap-4 grid-cols-1 md:grid-cols-2">
           <Buffer show={isLoading}/>
           <div>
-            <Label htmlFor="title" value="Title" />
-            <TextInput
+            <label htmlFor="title">Title</label><br/>
+            <input
               id="title"
+              className='input input-bordered w-full'
               name="title"
               placeholder="Add title to your trip .."
               value={formData.title}
               onChange={handleChange}
+              maxLength={50}
               required
               icon={MdTitle}
             />
           </div>
           <div>
-            <Label htmlFor="category" value="Category" />
-            <Select
+            <label htmlFor="category">Category</label>
+            <select
               defaultValue="adventure"
-              className='w-full h-10'
-              onChange={(value) => {
+              className='w-full h-10 select select-bordered'
+              onChange={(e) => {
                 setFormData(prev => ({
                   ...prev,
-                  category : value
+                  category : e.target.value
                 }))
               }}
-              loading = {isLoading}
-              options={categories}
-            />
-            {/* <Select
-              id="category"
-              name="category"
-              placeholder="Enter category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              
-              icon={AiOutlineGlobal}
-            >
-              <option value={''}>Select Category</option>
-              {
-                categories.map((category) =><option key={category.value} value={category.value}>{category.label}</option>)
-              }
-            </Select> */}
+              >
+                <option value={''}>Select Category</option>
+                {
+                  categories.map(category => <option value={category.label} key = {category.label}>{category.label}</option>)
+                }
+            </select>
           </div>
           <div>
-            <Label htmlFor="from-country" value="From" />
-            <Textarea
+            <label htmlFor="from-country">From</label>
+            <input 
               id="from-country"
+              placeholder={'Place/City, State, Country ... '}
               name="address_from"
-              placeholder={'Enter Your Dispature ... '}
+              className='input group input-bordered w-full'
+              maxLength={'50'}
               onChange={handleChange}
-              required
-              icon={AiOutlineGlobal}
             />
           </div>
           <div>
-            <Label htmlFor="to-country" value="To" />
-            <Textarea
+            <label htmlFor="to-country">To</label>
+            <input
               id="to-country"
               name="address_to"
-              placeholder={'Enter Your Destination ...'}
+              placeholder={'Place/City, State, Country ... '}
+              className='input group input-bordered w-full'
               onChange={handleChange}
+              maxLength={'50'}
               required
-              icon={AiOutlineGlobal}
             />
           </div>
           <div>
-            <Label htmlFor="date" value="Date" />
-            <TextInput
+            <label htmlFor="date">Choose Departure Date</label><br/>
+            <input
               id="date"
-              name="date"
               type="date"
+              className='input input-bordered bg-transparent rounded-lg w-full'
+              name="date"
               min={today}
               onChange={handleChange}
               required
@@ -175,10 +168,11 @@ const TripForm = ({
             />
           </div>
           <div>
-            <Label htmlFor="date" value="Time" />
-            <TextInput
+            <label htmlFor="time">Choose Departure Time</label><br/>
+            <input
               id="time"
               name="time"
+              className='input input-bordered bg-transparent rounded-lg w-full'
               type="time"
               max={currentTime}
               onChange={handleChange}
@@ -187,35 +181,37 @@ const TripForm = ({
             />
           </div>
           <div>
-            <Label htmlFor="group-size" value="Group Size" />
-            <TextInput
+            <label htmlFor="group-size">Group Size</label>
+            <input
               id="group-size"
+              className='input input-bordered bg-transparent rounded-lg w-full'
               name="group_size"
-              type="number"
               placeholder="Enter group size"
               value={formData.group_size}
               onChange={handleChange}
+              pattern='[0-9]*'
               required
               icon={AiOutlineUsergroupAdd}
             />
           </div>
           <div>
-            <Label htmlFor="distance" value="Distance (KM)" />
-            <TextInput
+            <abel htmlFor="distance">Distance (KM)</abel>
+            <input
               id="distance"
+              className='input input-bordered bg-transparent rounded-lg w-full'
               name="distance"
-              type="number"
               placeholder="Enter distance"
               value={formData.distance}
               onChange={handleChange}
               icon={AiOutlineGlobal}
+              pattern='[0-9]*'
               required
             />
           </div>
           <div className="col-span-2 flex w-full items-center justify-center">
-            <Label
+            <label
               htmlFor="dropzone-file"
-              className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-500 bg-transparent dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 {
@@ -250,27 +246,28 @@ const TripForm = ({
                   </div>
                 }
               </div>
-              <FileInput id="dropzone-file" onChange={(e)=>{
+              <input type='file' id="dropzone-file" onChange={(e)=>{
                 setFormData(prev => ({
                   ...prev,
                   trip_cover_img : e.target.files[0]
                 }))
               }} className="hidden" />
-            </Label>
+            </label>
           </div>
           <div className='col-span-2'>
-            <Label htmlFor="description" value="Description" />
-            <Textarea
+            <label>Description ( {formData.description.length || 0} /255)</label>
+            <textarea
               id="description"
+              className='i input input-bordered w-full h-20'
               name="description"
               placeholder="Enter description"
               value={formData.description}
               onChange={handleChange}
-              rows={4}
               icon={AiOutlineGlobal}
+              maxLength = {255}
             />
           </div>
-          <Button isProcessing = {isLoading} className='col-span-2' gradientMonochrome={'info'} type="submit">Submit</Button>
+          <Button isProcessing = {isLoading} className='col-span-2' gradientMonochrome={'info'} type="submit">Journey Bigins</Button>
         </form>
   );
 };

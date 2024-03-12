@@ -18,7 +18,7 @@ const Profile = () => {
         </div>
         <div >
           <div sclassName='border-2 px-2 rounded-lg shadow-md shadow-cyan-400 border-cyan-600'>
-            <TripTabs/>
+            <TripTabs userData = {userData}/>
           </div>
         </div>
     </div>

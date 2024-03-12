@@ -1,5 +1,5 @@
 import React from 'react'
-import TripPublicCard from '../../Trips/Cards/TripPublicCard'
+import CommentLabelBox from '../../../Trips/CommentLabelBox';
 import { Card } from 'flowbite-react';
 import { SiYourtraveldottv } from "react-icons/si";
 
@@ -10,7 +10,7 @@ const NoData = () => {
             <center>
                 <SiYourtraveldottv size={25} className='my-2'/>
             </center>
-            <h1 className='text-center'>No trips found</h1>
+            <h1 className='text-center'>No Comments</h1>
         </div>
     )
 }
@@ -20,24 +20,20 @@ const Skeleton = () => {
         <Card className='bg-main my-3'>
             <div className="flex flex-col gap-4 w-full">
                 <div className="flex gap-4 items-center w-full">
-                    <div className="skeleton w-16 h-16 rounded-full shrink-0"></div>
+                    <div className="skeleton w-12 h-12 rounded-full shrink-0"></div>
                     <div className="flex flex-col gap-4">
-                    <div className="skeleton h-4 w-20"></div>
-                    <div className="skeleton h-4 w-28"></div>
+                    <div className="skeleton h-1 w-20"></div>
+                    <div className="skeleton h-2 w-72"></div>
+                    <div className="skeleton h-2 w-44"></div>
                     </div>
                 </div>
-                <div className="skeleton h-32 w-full"></div>
-                <div className="skeleton h-4 w-28"></div>
-                <div className="skeleton h-4 w-full"></div>
-                <div className="skeleton h-4 w-full"></div>
             </div>
-
         </Card>
     )
 }
 
-const TripResultSkeleton = ({
-    trips,
+const CommentsSkeleton = ({
+    comments,
     isLoading,
     skeletonCount
 }) => {
@@ -54,8 +50,8 @@ const TripResultSkeleton = ({
             : 
             <div>
                 {
-                    trips?.length > 0 ?
-                    trips?.map(trip => <TripPublicCard tripData = {trip} key={trip.uiid}/>)
+                    comments.length > 0 ?
+                    comments.map(comment => <CommentLabelBox comment = {comment} key={comment.uiid}/>)
                     :
                     <NoData/>
                 }
@@ -66,4 +62,4 @@ const TripResultSkeleton = ({
   )
 }
 
-export default TripResultSkeleton
+export default CommentsSkeleton

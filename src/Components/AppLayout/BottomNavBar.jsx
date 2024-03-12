@@ -22,11 +22,11 @@ const BottomNavBar = () => {
       icon: <FaEnvelope className={location.pathname.includes('/chats') ? 'text-cyan-600' : 'text-gray-400'}/>,
       title: 'Messages',
     },
-    {
-      path: '/requests',
-      icon: <FaUsers className={location.pathname.includes('/requests') ? 'text-cyan-600' : 'text-gray-400'}/>,
-      title: 'Requests',
-    },
+    // {
+    //   path: '/requests',
+    //   icon: <FaUsers className={location.pathname.includes('/requests') ? 'text-cyan-600' : 'text-gray-400'}/>,
+    //   title: 'Requests',
+    // },
   ];
   const activeStyle = 'text-main font-bold'
 
